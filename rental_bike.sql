@@ -1,0 +1,44 @@
+CREATE DATABASE bike_rental;
+
+/c bike_rental;
+
+
+
+ CREATE TABLE client (
+ id SERIAL,
+ dni CHARACTER VARYING(15) UNIQUE NOT NULL,
+ name_client CHARACTER VARYING(40) NOT NULL,
+ last_name CHARACTER VARYING(40) NOT NULL,
+ cellphone NUMERIC NOT NULL,
+ email CHARACTER VARYING(100),
+ "address" CHARACTER VARYING(150) NOT NULL,
+ CONSTRAINT client_pkey PRIMARY KEY (id)
+);
+
+ CREATE TABLE rental (
+ id SERIAL,
+ client_id INTEGER NOT NULL,
+ date_rent TIMESTAMP NOT NULL,
+ date_returned TIMESTAMP NOT NULL,
+ CONSTRAINT rental_pkey PRIMARY KEY (id),
+ FOREIGN KEY (client_id) REFERENCES client(id)
+);
+
+CREATE TABLE payment (
+ id SERIAL,
+ payment_method CHARACTER VARYING(15) NOT NULL DEFAULT 'Cash',
+ "date" TIMESTAMP NOT NULL DEFAULT now(),
+ amount MONEY NOT NULL,
+ CONSTRAINT payment_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE bike (
+ id SERIAL,
+ "type" CHARACTER VARYING(60),
+ model CHARACTER VARYING(45),
+ size INT NOT NULL,
+ brand CHARACTER VARYING(45),
+ hourly_price MONEY NOT NULL,
+ CONSTRAINT bike_pkey PRIMARY KEY (id)
+);
+
